@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerTrack</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f5f6fb;
+    --card: #ffffff;
+    --text: #171a2b;
+    --muted: #74798b;
+    --border: #e5e7ef;
+    --primary: #6557e8;
+    --primary-light: #eeecff;
+    --success: #159a68;
+    --success-light: #e7f7ef;
+    --warning: #c98618;
+    --warning-light: #fff4dc;
+    --danger: #d95353;
+    --danger-light: #ffebeb;
+    --blue: #317bd5;
+    --blue-light: #eaf3ff;
+    --shadow: 0 10px 30px rgba(20, 23, 45, 0.07);
+}
+
+body.dark {
+    --bg: #10111a;
+    --card: #191b27;
+    --text: #f4f5fb;
+    --muted: #9b9eae;
+    --border: #2c2f3d;
+    --primary-light: #292552;
+    --success-light: #17372b;
+    --warning-light: #3c3019;
+    --danger-light: #3b2020;
+    --blue-light: #192e48;
+    --shadow: none;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #19182b;
+    color: white;
+    padding: 25px 18px;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 45px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #6757e8, #9186ff);
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.logo h2 {
+    font-size: 20px;
+}
+
+.logo p {
+    color: #aaa9ba;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #aaa9ba;
+    text-align: left;
+    padding: 13px;
+    border-radius: 11px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.nav button:hover,
+.nav button.active {
+    background: #2b2940;
+    color: white;
+}
+
+.sidebar-bottom {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 25px;
+    background: #25243b;
+    padding: 16px;
+    border-radius: 15px;
+}
+
+.sidebar-bottom p {
+    color: #b3b2c2;
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 8px 0 13px;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 28px 35px 50px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.header small {
+    color: var(--primary);
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.header h1 {
+    font-size: 25px;
+    margin-top: 5px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 9px;
+}
+
+button {
+    font-family: inherit;
+}
+
+.btn {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.hero {
+    background: linear-gradient(135deg, #6252e5, #897cff);
+    color: white;
+    border-radius: 22px;
+    padding: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 17px;
+}
+
+.hero small {
+    letter-spacing: 1.5px;
+    font-weight: bold;
+}
+
+.hero h2 {
+    font-size: 32px;
+    max-width: 650px;
+    margin: 10px 0;
+}
+
+.hero p {
+    max-width: 650px;
+    color: #eeeefe;
+    line-height: 1.5;
+}
+
+.response-box {
+    min-width: 145px;
+    text-align: center;
+    padding: 17px;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.1);
+    border-radius: 15px;
+}
+
+.response-box strong {
+    display: block;
+    font-size: 35px;
+    margin: 5px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 17px;
+}
+
+.stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 11px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.stat span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.stat h3 {
+    font-size: 26px;
+    margin: 5px 0;
+}
+
+.stat small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.panel-header small {
+    color: var(--primary);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.panel-header h3 {
+    margin-top: 4px;
+}
+
+.application {
+    display: grid;
+    grid-template-columns: 1.5fr .8fr auto;
+    gap: 15px;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px;
+    margin-bottom: 9px;
+}
+
+.company {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+    min-width: 0;
+}
+
+.company-logo {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.company-info strong {
+    display: block;
+}
+
+.company-info span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 50px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.badge.Wishlist { background: #eff0f4; color: #697080; }
+.badge.Applied { background: var(--blue-light); color: var(--blue); }
+.badge.Shortlisted { background: var(--primary-light); color: var(--primary); }
+.badge.Interview { background: var(--warning-light); color: var(--warning); }
+.badge.Offer { background: var(--success-light); color: var(--success); }
+.badge.Rejected { background: var(--danger-light); color: var(--danger); }
+
+.application-meta small {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 5px;
+}
+
+.row-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.mini-btn {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 7px;
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 10px;
+}
+
+.date {
+    text-align: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 7px;
+}
+
+.date strong {
+    display: block;
+    font-size: 17px;
+}
+
+.date small {
+    color: var(--muted);
+    font-size: 8px;
+}
+
+.timeline-item strong {
+    font-size: 11px;
+}
+
+.timeline-item p {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.break-row {
+    display: grid;
+    grid-template-columns: 85px 1fr 25px;
+    gap: 8px;
+    align-items: center;
+}
+
+.break-row span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.progress {
+    height: 7px;
+    background: var(--bg);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress i {
+    display: block;
+    height: 100%;
+    background: var(--primary);
+    border-radius: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 17px;
+}
+
+.page-title small {
+    color: var(--primary);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.page-title h2 {
+    font-size: 27px;
+    margin-top: 5px;
+}
+
+.toolbar {
+    display: grid;
+    grid-template-columns: 1fr 180px 180px;
+    gap: 9px;
+    margin-bottom: 14px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+}
+
+.interview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.interview-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.interview-card h3 {
+    margin: 15px 0 5px;
+}
+
+.interview-card .date-text {
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.interview-card p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 9px;
+    line-height: 1.5;
+}
+
+.insight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.funnel-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 25px;
+    gap: 8px;
+    align-items: center;
+}
+
+.funnel-row span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.funnel-bar {
+    height: 25px;
+    background: var(--bg);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.funnel-bar i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), #9187ff);
+}
+
+.snapshot-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+}
+
+.snapshot-row span {
+    color: var(--muted);
+}
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.empty strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,12,20,.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    background: var(--card);
+    color: var(--text);
+    width: min(700px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.modal-header small {
+    color: var(--primary);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.modal-header h2 {
+    margin-top: 5px;
+}
+
+.close {
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #171925;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s;
+    z-index: 200;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+@media (max-width: 1000px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid, .insight-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 750px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .header {
+        align-items: flex-start;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .application {
+        grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .interview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">C</div>
+        <div>
+            <h2>CareerTrack</h2>
+            <p>Your career, organized.</p>
+        </div>
+    </div>
+
+    <nav class="nav">
+
+        <button class="active" onclick="showPage('dashboard', this)">
+            ▦ &nbsp; Dashboard
+        </button>
+
+        <button onclick="showPage('applications', this)">
+            ▤ &nbsp; Applications
+        </button>
+
+        <button onclick="showPage('interviews', this)">
+            ◷ &nbsp; Interviews
+        </button>
+
+        <button onclick="showPage('insights', this)">
+            ◒ &nbsp; Insights
+        </button>
+
+        <button onclick="toggleDarkMode()">
+            ◐ &nbsp; Dark mode
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <strong>✦ Stay on track</strong>
+        <p>
+            Track applications, interviews and deadlines
+            without losing sight of your next opportunity.
+        </p>
+
+        <button class="btn btn-primary" style="width:100%"
+                onclick="openModal()">
+            + Add application
+        </button>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <header class="header">
+
+        <div>
+            <small>CAREER DASHBOARD</small>
+            <h1 id="pageHeading">
+                Good luck with your next opportunity 👋
+            </h1>
+        </div>
+
+        <div class="header-actions">
+
+            <button class="btn" onclick="exportData()">
+                Export
+            </button>
+
+            <button class="btn btn-primary" onclick="openModal()">
+                + Add application
+            </button>
+
+        </div>
+
+    </header>
+
+    <section id="dashboard" class="page active">
+
+        <div class="hero">
+
+            <div>
+                <small>YOUR APPLICATION JOURNEY</small>
+
+                <h2>
+                    Turn scattered applications
+                    into a clear career plan.
+                </h2>
+
+                <p>
+                    CareerTrack helps you manage internships,
+                    jobs, interviews and deadlines from one place.
+                </p>
+            </div>
+
+            <div class="response-box">
+                Response rate
+                <strong id="responseRate">0%</strong>
+                <small>Interviews + offers</small>
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-icon">◎</div>
+                <span>Total applications</span>
+                <h3 id="totalApplications">0</h3>
+                <small>All tracked opportunities</small>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">↗</div>
+                <span>Active applications</span>
+                <h3 id="activeApplications">0</h3>
+                <small>Applied / shortlisted</small>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">◷</div>
+                <span>Interviews</span>
+                <h3 id="totalInterviews">0</h3>
+                <small>Upcoming & completed</small>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">★</div>
+                <span>Offers</span>
+                <h3 id="totalOffers">0</h3>
+                <small>Celebrate the wins</small>
+            </div>
+
+        </div>
+
+        <div class="grid">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <small>PIPELINE</small>
+                        <h3>Recent applications</h3>
+                    </div>
+
+                    <button class="btn"
+                            onclick="showPage('applications')">
+                        View all →
+                    </button>
+                </div>
+
+                <div id="recentApplications"></div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <small>UPCOMING</small>
+                        <h3>Important dates</h3>
+                    </div>
+                </div>
+
+                <div id="upcomingDates" class="timeline"></div>
+
+            </div>
+
+        </div>
+
+        <div class="grid">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <small>STATUS</small>
+                        <h3>Application breakdown</h3>
+                    </div>
+                </div>
+
+                <div id="statusBreakdown" class="breakdown"></div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <small>QUICK TIPS</small>
+                        <h3>Stay interview-ready</h3>
+                    </div>
+                </div>
+
+                <p style="color:var(--muted);font-size:11px;line-height:1.7">
+                    <b style="color:var(--text)">01 · Track</b><br>
+                    Add every opportunity as soon as you apply.
+                    <br><br>
+
+                    <b style="color:var(--text)">02 · Prepare</b><br>
+                    Keep interview and preparation notes.
+                    <br><br>
+
+                    <b style="color:var(--text)">03 · Review</b><br>
+                    Use your pipeline to understand your progress.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="applications" class="page">
+
+        <div class="page-title">
+
+            <div>
+                <small>APPLICATIONS</small>
+                <h2>Every opportunity, in one place.</h2>
+            </div>
+
+            <button class="btn btn-primary" onclick="openModal()">
+                + Add application
+            </button>
+
+        </div>
+
+        <div class="toolbar">
+
+            <input id="searchInput"
+                   type="text"
+                   placeholder="Search company, role or location..."
+                   oninput="renderApplications()">
+
+            <select id="statusFilter" onchange="renderApplications()">
+                <option value="all">All statuses</option>
+                <option>Wishlist</option>
+                <option>Applied</option>
+                <option>Shortlisted</option>
+                <option>Interview</option>
+                <option>Offer</option>
+                <option>Rejected</option>
+            </select>
+
+            <select id="sortFilter" onchange="renderApplications()">
+                <option value="newest">Newest first</option>
+                <option value="deadline">Nearest deadline</option>
+                <option value="company">Company A-Z</option>
+            </select>
+
+        </div>
+
+        <div id="allApplications"></div>
+
+    </section>
+
+    <section id="interviews" class="page">
+
+        <div class="page-title">
+            <div>
+                <small>INTERVIEWS</small>
+                <h2>Prepare for the moments that matter.</h2>
+            </div>
+        </div>
+
+        <div id="interviewCards" class="interview-grid"></div>
+
+    </section>
+
+    <section id="insights" class="page">
+
+        <div class="page-title">
+            <div>
+                <small>INSIGHTS</small>
+                <h2>Understand your application journey.</h2>
+            </div>
+        </div>
+
+        <div class="insight-grid">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <small>CONVERSION</small>
+                        <h3>Application funnel</h3>
+                    </div>
+                </div>
+
+                <div id="funnel" class="funnel"></div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <small>SUMMARY</small>
+                        <h3>CareerTrack snapshot</h3>
+                    </div>
+                </div>
+
+                <div id="snapshot"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+<!-- APPLICATION FORM MODAL -->
+
+<div id="modalOverlay"
+     class="modal-overlay"
+     onclick="closeOnOutside(event)">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <small>APPLICATION DETAILS</small>
+                <h2 id="modalTitle">Add a new application</h2>
+            </div>
+
+            <button class="close" onclick="closeModal()">✕</button>
+
+        </div>
+
+        <form id="applicationForm" onsubmit="saveApplication(event)">
+
+            <input type="hidden" id="applicationId">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Company *</label>
+                    <input id="company" required placeholder="e.g. Google">
+                </div>
+
+                <div class="form-group">
+                    <label>Role *</label>
+                    <input id="role" required placeholder="e.g. Software Engineering Intern">
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input id="location" placeholder="e.g. Bengaluru / Remote">
+                </div>
+
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select id="status">
+                        <option>Wishlist</option>
+                        <option selected>Applied</option>
+                        <option>Shortlisted</option>
+                        <option>Interview</option>
+                        <option>Offer</option>
+                        <option>Rejected</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Applied date</label>
+                    <input id="appliedDate" type="date">
+                </div>
+
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input id="deadline" type="date">
+                </div>
+
+                <div class="form-group">
+                    <label>Interview date</label>
+                    <input id="interviewDate" type="datetime-local">
+                </div>
+
+                <div class="form-group">
+                    <label>Job link</label>
+                    <input id="jobLink" type="url" placeholder="https://...">
+                </div>
+
+                <div class="form-group full">
+                    <label>Notes</label>
+                    <textarea id="notes" rows="4"
+                        placeholder="Recruiter, interview rounds, preparation notes..."></textarea>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+
+                <button type="button" class="btn" onclick="closeModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn btn-primary">
+                    Save application
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* =========================
+   CAREERTRACK - JAVASCRIPT
+   Beginner-friendly version
+========================= */
+
+// Variable for storing the LocalStorage key.
+var STORAGE_KEY = "careertrack_applications";
+
+// Sample applications shown when the website is opened for the first time.
+var demoData = [
+
+    {
+        id: "1",
+        company: "Google",
+        role: "Software Engineering Intern",
+        location: "Bengaluru",
+        status: "Interview",
+        appliedDate: "2026-08-28",
+        deadline: "2026-09-12",
+        interviewDate: "2026-09-10T11:30",
+        jobLink: "",
+        notes: "Revise DSA and JavaScript fundamentals."
+    },
+
+    {
+        id: "2",
+        company: "Microsoft",
+        role: "Software Engineering Intern",
+        location: "Hyderabad",
+        status: "Applied",
+        appliedDate: "2026-09-01",
+        deadline: "2026-09-18",
+        interviewDate: "",
+        jobLink: "",
+        notes: "Application submitted."
+    },
+
+    {
+        id: "3",
+        company: "Atlassian",
+        role: "Frontend Engineering Intern",
+        location: "Remote",
+        status: "Shortlisted",
+        appliedDate: "2026-08-25",
+        deadline: "2026-09-15",
+        interviewDate: "",
+        jobLink: "",
+        notes: "Prepare DOM and web fundamentals."
+    },
+
+    {
+        id: "4",
+        company: "Adobe",
+        role: "Product Intern",
+        location: "Noida",
+        status: "Offer",
+        appliedDate: "2026-08-14",
+        deadline: "2026-08-31",
+        interviewDate: "",
+        jobLink: "",
+        notes: "Offer received."
+    }
+
+];
+
+
+// Get saved applications from LocalStorage.
+var savedData = localStorage.getItem(STORAGE_KEY);
+
+var applications = [];
+
+if (savedData != null) {
+
+    try {
+        applications = JSON.parse(savedData);
+    }
+    catch (error) {
+        applications = demoData;
+    }
+
+} else {
+
+    applications = demoData;
+
+}
+
+
+/* =========================
+   UTILITY FUNCTIONS
+========================= */
+
+// This function protects text before displaying it inside HTML.
+function escapeHTML(value) {
+
+    var text = String(value || "");
+
+    text = text.replace(/&/g, "&amp;");
+    text = text.replace(/</g, "&lt;");
+    text = text.replace(/>/g, "&gt;");
+    text = text.replace(/"/g, "&quot;");
+    text = text.replace(/'/g, "&#039;");
+
+    return text;
+}
+
+
+// Get the first letters of the company name.
+function initials(company) {
+
+    var words = company.trim().split(" ");
+    var result = "";
+
+    for (var i = 0; i < words.length && i < 2; i++) {
+
+        if (words[i] != "") {
+            result = result + words[i].charAt(0);
+        }
+
+    }
+
+    return result.toUpperCase();
+}
+
+
+// Convert a date into a readable format.
+function formatDate(value) {
+
+    if (value == "" || value == null) {
+        return "Not set";
+    }
+
+    var date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return "Not set";
+    }
+
+    return date.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+
+// Convert date and time into a readable format.
+function formatDateTime(value) {
+
+    if (value == "" || value == null) {
+        return "Date not set";
+    }
+
+    var date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return "Date not set";
+    }
+
+    return date.toLocaleString("en-IN", {
+        day: "numeric",
+        month: "short",
+        hour: "numeric",
+        minute: "2-digit"
+    });
+}
+
+
+// Save the application array in LocalStorage.
+function saveData() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(applications)
+    );
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+// Show the selected page.
+function showPage(pageId, button) {
+
+    var pages = document.getElementsByClassName("page");
+
+    // Hide all pages.
+    for (var i = 0; i < pages.length; i++) {
+        pages[i].classList.remove("active");
+    }
+
+    // Show the selected page.
+    document.getElementById(pageId).classList.add("active");
+
+    // Remove active class from all navigation buttons.
+    var buttons = document.querySelectorAll(".nav button");
+
+    for (var j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove("active");
+    }
+
+    // Highlight the selected navigation button.
+    if (button) {
+        button.classList.add("active");
+    } else {
+
+        if (pageId == "dashboard") {
+            buttons[0].classList.add("active");
+        }
+
+        if (pageId == "applications") {
+            buttons[1].classList.add("active");
+        }
+
+        if (pageId == "interviews") {
+            buttons[2].classList.add("active");
+        }
+
+        if (pageId == "insights") {
+            buttons[3].classList.add("active");
+        }
+    }
+
+    // Change the heading according to the page.
+    var heading = document.getElementById("pageHeading");
+
+    if (pageId == "dashboard") {
+        heading.innerHTML = "Good luck with your next opportunity 👋";
+    }
+
+    else if (pageId == "applications") {
+        heading.innerHTML = "Manage your application pipeline";
+    }
+
+    else if (pageId == "interviews") {
+        heading.innerHTML = "Your interview schedule";
+    }
+
+    else if (pageId == "insights") {
+        heading.innerHTML = "Your progress at a glance";
+    }
+
+}
+
+
+/* =========================
+   MODAL FUNCTIONS
+========================= */
+
+// Open the form for adding or editing an application.
+function openModal(application) {
+
+    var overlay = document.getElementById("modalOverlay");
+    var form = document.getElementById("applicationForm");
+
+    overlay.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+    form.reset();
+
+    document.getElementById("applicationId").value = "";
+
+    // Set the modal heading.
+    if (application == null) {
+        document.getElementById("modalTitle").innerHTML = "Add a new application";
+    } else {
+        document.getElementById("modalTitle").innerHTML = "Edit application";
+    }
+
+    // Set today's date in the applied date field.
+    var today = new Date().toISOString().slice(0, 10);
+
+    document.getElementById("appliedDate").value = today;
+
+    // If an application is selected, fill the form with its details.
+    if (application != null) {
+
+        document.getElementById("applicationId").value = application.id;
+        document.getElementById("company").value = application.company;
+        document.getElementById("role").value = application.role;
+        document.getElementById("location").value = application.location || "";
+        document.getElementById("status").value = application.status;
+        document.getElementById("appliedDate").value = application.appliedDate || "";
+        document.getElementById("deadline").value = application.deadline || "";
+        document.getElementById("interviewDate").value = application.interviewDate || "";
+        document.getElementById("jobLink").value = application.jobLink || "";
+        document.getElementById("notes").value = application.notes || "";
+
+    }
+
+}
+
+
+// Close the modal.
+function closeModal() {
+
+    document.getElementById("modalOverlay").classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+
+// Close the modal when the user clicks outside it.
+function closeOnOutside(event) {
+
+    if (event.target.id == "modalOverlay") {
+        closeModal();
+    }
+
+}
+
+
+/* =========================
+   SAVE APPLICATION
+========================= */
+
+// Save a new application or update an existing one.
+function saveApplication(event) {
+
+    event.preventDefault();
+
+    var id = document.getElementById("applicationId").value;
+
+    // Create an application object using form values.
+    var application = {
+
+        id: id,
+
+        company: document.getElementById("company").value.trim(),
+
+        role: document.getElementById("role").value.trim(),
+
+        location: document.getElementById("location").value.trim(),
+
+        status: document.getElementById("status").value,
+
+        appliedDate: document.getElementById("appliedDate").value,
+
+        deadline: document.getElementById("deadline").value,
+
+        interviewDate: document.getElementById("interviewDate").value,
+
+        jobLink: document.getElementById("jobLink").value.trim(),
+
+        notes: document.getElementById("notes").value.trim()
+
+    };
+
+
+    // If ID is empty, add a new application.
+    if (id == "") {
+
+        application.id = new Date().getTime().toString();
+
+        applications.push(application);
+
+        showToast("Application added");
+
+    }
+
+    // Otherwise, update the existing application.
+    else {
+
+        for (var i = 0; i < applications.length; i++) {
+
+            if (applications[i].id == id) {
+                applications[i] = application;
+            }
+
+        }
+
+        showToast("Application updated");
+
+    }
+
+    saveData();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+/* =========================
+   DELETE APPLICATION
+========================= */
+
+// Delete an application using its ID.
+function deleteApplication(id) {
+
+    var companyName = "";
+
+    for (var i = 0; i < applications.length; i++) {
+
+        if (applications[i].id == id) {
+            companyName = applications[i].company;
+        }
+
+    }
+
+    if (confirm("Delete " + companyName + " application?")) {
+
+        var newApplications = [];
+
+        for (var j = 0; j < applications.length; j++) {
+
+            if (applications[j].id != id) {
+                newApplications.push(applications[j]);
+            }
+
+        }
+
+        applications = newApplications;
+
+        saveData();
+
+        renderAll();
+
+        showToast("Application deleted");
+
+    }
+
+}
+
+
+/* =========================
+   EDIT APPLICATION
+========================= */
+
+// Find an application and open it in the form.
+function editApplication(id) {
+
+    for (var i = 0; i < applications.length; i++) {
+
+        if (applications[i].id == id) {
+            openModal(applications[i]);
+            return;
+        }
+
+    }
+
+}
+
+
+/* =========================
+   APPLICATION CARD
+========================= */
+
+// Create the HTML for one application.
+function applicationCard(app) {
+
+    var html = "";
+
+    html += '<div class="application">';
+
+    html += '<div class="company">';
+
+    html += '<div class="company-logo">';
+    html += escapeHTML(initials(app.company));
+    html += '</div>';
+
+    html += '<div class="company-info">';
+
+    html += '<strong>' + escapeHTML(app.company) + '</strong>';
+
+    html += '<span>' + escapeHTML(app.role);
+
+    if (app.location != "") {
+        html += ' · ' + escapeHTML(app.location);
+    }
+
+    html += '</span>';
+
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="application-meta">';
+
+    html += '<span class="badge ' + escapeHTML(app.status) + '">';
+    html += escapeHTML(app.status);
+    html += '</span>';
+
+    html += '<small>';
+
+    if (app.deadline != "") {
+        html += 'Deadline: ' + formatDate(app.deadline);
+    } else {
+        html += 'Applied: ' + formatDate(app.appliedDate);
+    }
+
+    html += '</small>';
+
+    html += '</div>';
+
+    html += '<div class="row-actions">';
+
+    html += '<button class="mini-btn" onclick="editApplication(\'' + app.id + '\')">Edit</button>';
+
+    html += '<button class="mini-btn" onclick="deleteApplication(\'' + app.id + '\')">Delete</button>';
+
+    html += '</div>';
+
+    html += '</div>';
+
+    return html;
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+// Display the statistics and information on the dashboard.
+function renderDashboard() {
+
+    var total = applications.length;
+    var active = 0;
+    var interviews = 0;
+    var offers = 0;
+
+    // Count applications according to their status.
+    for (var i = 0; i < applications.length; i++) {
+
+        if (applications[i].status == "Applied" ||
+            applications[i].status == "Shortlisted") {
+            active++;
+        }
+
+        if (applications[i].status == "Interview" ||
+            applications[i].interviewDate != "") {
+            interviews++;
+        }
+
+        if (applications[i].status == "Offer") {
+            offers++;
+        }
+
+    }
+
+    document.getElementById("totalApplications").innerHTML = total;
+
+    document.getElementById("activeApplications").innerHTML = active;
+
+    document.getElementById("totalInterviews").innerHTML = interviews;
+
+    document.getElementById("totalOffers").innerHTML = offers;
+
+    // Calculate response rate.
+    var responseRate = 0;
+
+    if (total > 0) {
+        responseRate = Math.round((interviews + offers) / total * 100);
+    }
+
+    document.getElementById("responseRate").innerHTML = responseRate + "%";
+
+
+    // Display recent applications.
+    var recentHTML = "";
+    var count = 0;
+
+    for (var j = applications.length - 1; j >= 0 && count < 4; j--) {
+
+        recentHTML += applicationCard(applications[j]);
+
+        count++;
+
+    }
+
+    if (recentHTML == "") {
+        recentHTML = '<div class="empty"><strong>No applications yet</strong>Add your first opportunity.</div>';
+    }
+
+    document.getElementById("recentApplications").innerHTML = recentHTML;
+
+
+    // Create a list of upcoming dates.
+    var events = [];
+    var today = new Date();
+
+    for (var k = 0; k < applications.length; k++) {
+
+        var app = applications[k];
+
+        if (app.interviewDate != "") {
+
+            var interview = new Date(app.interviewDate);
+
+            if (interview >= today) {
+
+                var interviewEvent = {
+                    date: interview,
+                    title: app.company,
+                    type: "Interview",
+                    role: app.role
+                };
+
+                events.push(interviewEvent);
+
+            }
+
+        }
+
+        if (app.deadline != "") {
+
+            var deadlineDate = new Date(app.deadline + "T23:59");
+
+            if (deadlineDate >= today) {
+
+                var deadlineEvent = {
+                    date: deadlineDate,
+                    title: app.company,
+                    type: "Deadline",
+                    role: app.role
+                };
+
+                events.push(deadlineEvent);
+
+            }
+
+        }
+
+    }
+
+
+    // Arrange events by date using a simple sorting loop.
+    for (var a = 0; a < events.length; a++) {
+
+        for (var b = 0; b < events.length - 1; b++) {
+
+            if (events[b].date > events[b + 1].date) {
+
+                var temp = events[b];
+
+                events[b] = events[b + 1];
+
+                events[b + 1] = temp;
+
+            }
+
+        }
+
+    }
+
+
+    // Display the first five upcoming events.
+    var dateHTML = "";
+
+    for (var e = 0; e < events.length && e < 5; e++) {
+
+        dateHTML += '<div class="timeline-item">';
+
+        dateHTML += '<div class="date">';
+
+        dateHTML += '<strong>' + events[e].date.getDate() + '</strong>';
+
+        dateHTML += '<small>';
+        dateHTML += events[e].date.toLocaleString("en-IN", { month: "short" });
+        dateHTML += '</small>';
+
+        dateHTML += '</div>';
+
+        dateHTML += '<div>';
+
+        dateHTML += '<strong>';
+        dateHTML += escapeHTML(events[e].title) + ' · ' + events[e].type;
+        dateHTML += '</strong>';
+
+        dateHTML += '<p>' + escapeHTML(events[e].role) + '</p>';
+
+        dateHTML += '</div>';
+
+        dateHTML += '</div>';
+
+    }
+
+    if (dateHTML == "") {
+        dateHTML = '<div class="empty"><strong>No upcoming dates</strong>Add deadlines or interviews.</div>';
+    }
+
+    document.getElementById("upcomingDates").innerHTML = dateHTML;
+
+
+    // Display application status breakdown.
+    var statuses = [
+        "Wishlist",
+        "Applied",
+        "Shortlisted",
+        "Interview",
+        "Offer",
+        "Rejected"
+    ];
+
+    var breakdownHTML = "";
+
+    for (var s = 0; s < statuses.length; s++) {
+
+        var statusCount = 0;
+
+        for (var n = 0; n < applications.length; n++) {
+
+            if (applications[n].status == statuses[s]) {
+                statusCount++;
+            }
+
+        }
+
+        var percentage = 0;
+
+        if (total > 0) {
+            percentage = statusCount / total * 100;
+        }
+
+        breakdownHTML += '<div class="break-row">';
+
+        breakdownHTML += '<span>' + statuses[s] + '</span>';
+
+        breakdownHTML += '<div class="progress">';
+        breakdownHTML += '<i style="width:' + percentage + '%"></i>';
+        breakdownHTML += '</div>';
+
+        breakdownHTML += '<b>' + statusCount + '</b>';
+
+        breakdownHTML += '</div>';
+
+    }
+
+    document.getElementById("statusBreakdown").innerHTML = breakdownHTML;
+
+}
+
+
+/* =========================
+   APPLICATIONS PAGE
+========================= */
+
+// Display all applications with search, filter and sorting.
+function renderApplications() {
+
+    var search = document.getElementById("searchInput").value.toLowerCase();
+
+    var filter = document.getElementById("statusFilter").value;
+
+    var sort = document.getElementById("sortFilter").value;
+
+    var list = [];
+
+
+    // Search and filter applications.
+    for (var i = 0; i < applications.length; i++) {
+
+        var app = applications[i];
+
+        var text = (
+            app.company + " " +
+            app.role + " " +
+            app.location
+        ).toLowerCase();
+
+        var searchMatch = text.indexOf(search) != -1;
+
+        var filterMatch = (filter == "all" || app.status == filter);
+
+        if (searchMatch && filterMatch) {
+            list.push(app);
+        }
+
+    }
+
+
+    // Sort applications using simple loops.
+    for (var a = 0; a < list.length; a++) {
+
+        for (var b = 0; b < list.length - 1; b++) {
+
+            var swap = false;
+
+            if (sort == "newest") {
+
+                if ((list[b].appliedDate || "") <
+                    (list[b + 1].appliedDate || "")) {
+                    swap = true;
+                }
+
+            }
+
+            else if (sort == "deadline") {
+
+                var date1 = list[b].deadline || "9999";
+                var date2 = list[b + 1].deadline || "9999";
+
+                if (date1 > date2) {
+                    swap = true;
+                }
+
+            }
+
+            else if (sort == "company") {
+
+                if (list[b].company.toLowerCase() >
+                    list[b + 1].company.toLowerCase()) {
+                    swap = true;
+                }
+
+            }
+
+            if (swap == true) {
+
+                var temp = list[b];
+
+                list[b] = list[b + 1];
+
+                list[b + 1] = temp;
+
+            }
+
+        }
+
+    }
+
+
+    // Display the applications.
+    var html = "";
+
+    for (var j = 0; j < list.length; j++) {
+        html += applicationCard(list[j]);
+    }
+
+    if (html == "") {
+        html = '<div class="empty"><strong>No applications found</strong>Try changing your search or filter.</div>';
+    }
+
+    document.getElementById("allApplications").innerHTML = html;
+
+}
+
+
+/* =========================
+   INTERVIEWS PAGE
+========================= */
+
+// Display applications that have an interview.
+function renderInterviews() {
+
+    var list = [];
+
+    for (var i = 0; i < applications.length; i++) {
+
+        if (applications[i].status == "Interview" ||
+            applications[i].interviewDate != "") {
+
+            list.push(applications[i]);
+
+        }
+
+    }
+
+
+    // Arrange interviews by date.
+    for (var a = 0; a < list.length; a++) {
+
+        for (var b = 0; b < list.length - 1; b++) {
+
+            var date1 = list[b].interviewDate || "9999";
+            var date2 = list[b + 1].interviewDate || "9999";
+
+            if (date1 > date2) {
+
+                var temp = list[b];
+
+                list[b] = list[b + 1];
+
+                list[b + 1] = temp;
+
+            }
+
+        }
+
+    }
+
+
+    var html = "";
+
+    for (var j = 0; j < list.length; j++) {
+
+        var app = list[j];
+
+        html += '<div class="interview-card">';
+
+        html += '<span class="badge ' + escapeHTML(app.status) + '">';
+        html += escapeHTML(app.status);
+        html += '</span>';
+
+        html += '<h3>' + escapeHTML(app.company) + '</h3>';
+
+        html += '<div>' + escapeHTML(app.role) + '</div>';
+
+        html += '<div class="date-text">';
+        html += formatDateTime(app.interviewDate);
+        html += '</div>';
+
+        html += '<p>';
+
+        if (app.notes != "") {
+            html += escapeHTML(app.notes);
+        } else {
+            html += "No preparation notes yet.";
+        }
+
+        html += '</p>';
+
+        html += '<button class="mini-btn" onclick="editApplication(\'' + app.id + '\')">';
+        html += 'Edit details';
+        html += '</button>';
+
+        html += '</div>';
+
+    }
+
+    if (html == "") {
+        html = '<div class="empty"><strong>No interviews yet</strong>Add an interview date to an application.</div>';
+    }
+
+    document.getElementById("interviewCards").innerHTML = html;
+
+}
+
+
+/* =========================
+   INSIGHTS PAGE
+========================= */
+
+// Display the application funnel and career summary.
+function renderInsights() {
+
+    var stages = [
+        "Applied",
+        "Shortlisted",
+        "Interview",
+        "Offer"
+    ];
+
+    var counts = [0, 0, 0, 0];
+
+
+    // Count applications for each stage.
+    for (var i = 0; i < applications.length; i++) {
+
+        var status = applications[i].status;
+
+        if (status == "Applied" ||
+            status == "Shortlisted" ||
+            status == "Interview" ||
+            status == "Offer") {
+            counts[0]++;
+        }
+
+        if (status == "Shortlisted" ||
+            status == "Interview" ||
+            status == "Offer") {
+            counts[1]++;
+        }
+
+        if (status == "Interview" ||
+            status == "Offer" ||
+            applications[i].interviewDate != "") {
+            counts[2]++;
+        }
+
+        if (status == "Offer") {
+            counts[3]++;
+        }
+
+    }
+
+
+    // Find the highest count to calculate bar widths.
+    var max = 1;
+
+    for (var j = 0; j < counts.length; j++) {
+
+        if (counts[j] > max) {
+            max = counts[j];
+        }
+
+    }
+
+
+    // Create the application funnel.
+    var funnelHTML = "";
+
+    for (var k = 0; k < stages.length; k++) {
+
+        var width = counts[k] / max * 100;
+
+        funnelHTML += '<div class="funnel-row">';
+
+        funnelHTML += '<span>' + stages[k] + '</span>';
+
+        funnelHTML += '<div class="funnel-bar">';
+        funnelHTML += '<i style="width:' + width + '%"></i>';
+        funnelHTML += '</div>';
+
+        funnelHTML += '<b>' + counts[k] + '</b>';
+
+        funnelHTML += '</div>';
+
+    }
+
+    document.getElementById("funnel").innerHTML = funnelHTML;
+
+
+    // Calculate summary information.
+    var total = applications.length;
+    var offers = 0;
+    var interviews = 0;
+
+    for (var n = 0; n < applications.length; n++) {
+
+        if (applications[n].status == "Offer") {
+            offers++;
+        }
+
+        if (applications[n].status == "Interview" ||
+            applications[n].interviewDate != "") {
+            interviews++;
+        }
+
+    }
+
+    var offerRate = 0;
+
+    if (total > 0) {
+        offerRate = Math.round(offers / total * 100);
+    }
+
+
+    // Display the summary.
+    var snapshotHTML = "";
+
+    snapshotHTML += '<div class="snapshot-row">';
+    snapshotHTML += '<span>Total applications</span>';
+    snapshotHTML += '<b>' + total + '</b>';
+    snapshotHTML += '</div>';
+
+    snapshotHTML += '<div class="snapshot-row">';
+    snapshotHTML += '<span>Interviews</span>';
+    snapshotHTML += '<b>' + interviews + '</b>';
+    snapshotHTML += '</div>';
+
+    snapshotHTML += '<div class="snapshot-row">';
+    snapshotHTML += '<span>Offers</span>';
+    snapshotHTML += '<b>' + offers + '</b>';
+    snapshotHTML += '</div>';
+
+    snapshotHTML += '<div class="snapshot-row">';
+    snapshotHTML += '<span>Offer rate</span>';
+    snapshotHTML += '<b>' + offerRate + '%</b>';
+    snapshotHTML += '</div>';
+
+    document.getElementById("snapshot").innerHTML = snapshotHTML;
+
+}
+
+
+/* =========================
+   RENDER ALL PAGES
+========================= */
+
+// Refresh all pages after adding, editing or deleting data.
+function renderAll() {
+
+    renderDashboard();
+
+    renderApplications();
+
+    renderInterviews();
+
+    renderInsights();
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+// Turn dark mode on or off.
+function toggleDarkMode() {
+
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+
+        localStorage.setItem("careertrack-dark", "true");
+
+    } else {
+
+        localStorage.setItem("careertrack-dark", "false");
+
+    }
+
+}
+
+
+/* =========================
+   EXPORT DATA
+========================= */
+
+// Download all application details as a JSON file.
+function exportData() {
+
+    var jsonData = JSON.stringify(applications, null, 2);
+
+    var file = new Blob([jsonData], {
+        type: "application/json"
+    });
+
+    var url = URL.createObjectURL(file);
+
+    var link = document.createElement("a");
+
+    link.href = url;
+
+    link.download = "CareerTrack-Applications.json";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+    showToast("Data exported successfully");
+
+}
+
+
+/* =========================
+   TOAST MESSAGE
+========================= */
+
+// Show a small message after an action.
+function showToast(message) {
+
+    var toast = document.getElementById("toast");
+
+    toast.innerHTML = message;
+
+    toast.classList.add("show");
+
+    setTimeout(function () {
+
+        toast.classList.remove("show");
+
+    }, 1800);
+
+}
+
+
+/* =========================
+   KEYBOARD EVENT
+========================= */
+
+// Close the modal when the Escape key is pressed.
+document.addEventListener("keydown", function(event) {
+
+    if (event.key == "Escape") {
+
+        var modal = document.getElementById("modalOverlay");
+
+        if (modal.classList.contains("show")) {
+            closeModal();
+        }
+
+    }
+
+});
+
+
+/* =========================
+   INITIALIZATION
+========================= */
+
+// Check whether dark mode was enabled earlier.
+var darkMode = localStorage.getItem("careertrack-dark");
+
+if (darkMode == "true") {
+    document.body.classList.add("dark");
+}
+
+// Display all data when the website opens.
+renderAll();
+
+</script>
+
+</body>
+</html>
